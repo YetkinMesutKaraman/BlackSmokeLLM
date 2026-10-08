@@ -1,0 +1,29 @@
+[build-system]
+requires = ["setuptools>=45", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "blacksmoke-llm"
+version = "0.1.0"
+description = "BlackSmoke LLM Backend"
+requires-python = ">=3.12"
+dependencies = [
+    "python-dotenv",
+    "google-genai",
+    "pandas",
+    "openai",
+    # Add other dependencies as needed
+]
+
+[tool.setuptools.packages.find]
+where = ["."]
+include = ["llm_providers*", "utils*", "routers*", "configs*", "schema_models*"]
+exclude = ["tests*"]
+
+[tool.setuptools.package-data]
+"*" = ["*.csv", "*.json", "*.txt"]
+
+[dependency-groups]
+dev = [
+    "ruff>=0.14.13",
+]

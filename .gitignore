@@ -1,0 +1,11 @@
+.env
+.venv
+tests/
+__pycache__/
+*.py[cod]
+*$py.class
+.DS_Store
+*/.DS_Store
+.ruff_cache/
+temp_json.py
+notebooks/
