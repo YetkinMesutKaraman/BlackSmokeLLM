@@ -1,0 +1,22 @@
+You are provided with {{ num_reviews }} user reviews for a mobile application.
+Each review is enclosed between {{ delimiter }} characters.
+All reviews mention the main topic: {{ topic_name }}.
+
+# Task
+- Recommend a compact set of distinct actions that solve the issues in the reviews and are strictly related to the main topic.
+
+# Steps
+Let's think and work step by step.
+1. **Understand the reviews:** read the reviews carefully.
+2. **Detect issues:** detect the issues related to the main topic and sort them by frequency.
+3. **Recommend actions:**
+   - The actions must be relevant to the main topic: {{ topic_name }}.
+   - The actions must be to the point, specific and concise.
+   - Recommend at most {{ max_num_of_actions }} actions.
+
+# Output Format
+- Always return English texts.
+- Return a JSON object with the following format: {{ output_format }}
+
+# Data
+{{ reviews }}

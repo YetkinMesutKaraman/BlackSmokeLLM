@@ -1,29 +1,48 @@
 [build-system]
-requires = ["setuptools>=45", "wheel"]
+requires = ["setuptools>=68", "wheel"]
 build-backend = "setuptools.build_meta"
 
 [project]
 name = "blacksmoke-llm"
-version = "0.1.0"
-description = "BlackSmoke LLM Backend"
+version = "0.2.0"
+description = "BlackSmoke LLM review analysis service"
+readme = "README.md"
 requires-python = ">=3.12"
 dependencies = [
-    "python-dotenv",
-    "google-genai",
-    "pandas",
-    "openai",
-    # Add other dependencies as needed
+    "fastapi>=0.118",
+    "uvicorn[standard]>=0.30",
+    "pydantic>=2.10",
+    "pydantic-settings>=2.6",
+    "pyyaml>=6.0",
+    "jinja2>=3.1",
+    "tenacity>=9.0",
+    "pandas>=2.2",
+    "openai>=2.0",
+    "google-genai>=1.50",
+]
+
+[dependency-groups]
+dev = [
+    "pytest>=8.3",
+    "pytest-asyncio>=0.24",
+    "httpx>=0.27",
+    "ruff>=0.14.13",
 ]
 
 [tool.setuptools.packages.find]
 where = ["."]
-include = ["llm_providers*", "utils*", "routers*", "configs*", "schema_models*"]
-exclude = ["tests*"]
+include = ["blacksmoke*"]
 
-[tool.setuptools.package-data]
-"*" = ["*.csv", "*.json", "*.txt"]
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+asyncio_mode = "auto"
+asyncio_default_fixture_loop_scope = "function"
+filterwarnings = ["ignore:Using `httpx` with `starlette.testclient` is deprecated"]
 
-[dependency-groups]
-dev = [
-    "ruff>=0.14.13",
-]
+[tool.ruff]
+line-length = 100
+target-version = "py312"
+extend-exclude = ["notebooks"]
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "UP", "B"]

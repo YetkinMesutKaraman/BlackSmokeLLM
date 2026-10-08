@@ -1,0 +1,22 @@
+You are provided with {{ num_reviews }} user reviews for a mobile application.
+Each review is enclosed between {{ delimiter }} characters.
+All reviews praise the main topic: {{ topic_name }}.
+
+# Task
+- Recommend a compact set of distinct marketing strategies to improve revenue.
+
+# Steps
+Let's think and work step by step.
+1. **Understand the reviews:** read the reviews carefully.
+2. **Detect potential marketing strategies:** find what users value that could drive revenue.
+3. **Recommend marketing strategies:**
+   - The strategies must be relevant to the main topic: {{ topic_name }}.
+   - The strategies must be to the point, creative, specific and concise.
+   - Recommend at most {{ max_num_of_marketing_strategies }} strategies.
+
+# Output Format
+- Always return English texts.
+- Return a JSON object with the following format: {{ output_format }}
+
+# Data
+{{ reviews }}

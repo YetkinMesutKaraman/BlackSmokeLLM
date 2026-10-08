@@ -1,0 +1,35 @@
+You are given {{ num_reviews }} user reviews. Each review is delimited by the token {{ delimiter }}.
+
+ROLE
+- Extract concise sub-topic PHRASES strictly relevant to a single main topic.
+- Main topic context: topic_type = "{{ topic_polarity }}", topic_name = "{{ topic_name }}".
+- IMPORTANT: All sub-topics MUST be the SAME TYPE as the main topic (topic_type = "{{ topic_polarity }}"). Do NOT propose sub-topics that belong to any other type.
+
+OUTPUT
+- Return ONLY a JSON object matching exactly: {{ output_format }}
+- If no valid sub-topics exist, return {"subtopics": []}.
+
+RULES
+- At most {{ max_num_of_subtopics }} unique, insightful sub-topic phrases.
+- Each phrase is at most 5 words.
+- Sub-topics must be strictly relevant to "{{ topic_name }}" AND belong to topic_type "{{ topic_polarity }}".
+- Do NOT repeat the same leading prefix among phrases (e.g., avoid "slow loading", "slow login").
+- No duplicates or near-duplicates (plural/singular, tense variants, trivial rewordings).
+- Avoid vague/general terms ("bad experience", "UI issues") unless they directly and specifically qualify the main topic within the SAME TYPE.
+
+DECISION CRITERIA (apply before output)
+- Keep a candidate only if ALL are true:
+  1) Type-consistent: belongs to topic_type "{{ topic_polarity }}"
+  2) Specific to "{{ topic_name }}" (not generic app/platform noise)
+  3) Appears in multiple reviews OR is highly actionable/impactful
+  4) Adds a distinct angle vs. other selected phrases
+
+FORMAT EXAMPLES (style only; do NOT include in output)
+- GOOD (same type as main): ["refund_policy_confusion", "delayed_payouts", "ID_verification_loops"]
+- BAD (wrong type or too generic): ["UI issues", "slow", "customer_support_polite"]
+
+DATA
+{{ reviews }}
+
+INSTRUCTIONS
+- Think through the selection privately. Output only the final JSON in the exact required format.

@@ -1,0 +1,23 @@
+# Relative paths are resolved against the project root (the parent of this config directory).
+data_dir: data
+output_dir: data/results
+log_level: INFO
+
+# Wraps every review when many reviews are sent in a single prompt.
+prompt_delimiter: "##"
+
+# Default review selection; tasks can override it in tasks.yaml.
+review_filter:
+  max_reviews: 1000   # most recent N reviews
+  min_length: 50      # drop reviews with <= N characters
+
+csv_formats:
+  # Raw store export: review_id;title;date_reviewed;review_text
+  raw:
+    sep: ";"
+  # Tagged reviews, as written by tag_reviews_with_topics and read by topic-scoped tasks.
+  tagged:
+    sep: "¤"
+    topic_columns:
+      positive: ai_positive_topics
+      negative: ai_negative_topics

@@ -1,0 +1,96 @@
+# Per-task model routing. The first route entry is the primary target; the rest are fallbacks,
+# tried in order. Params merge as: defaults.params <- task params <- route entry params.
+#
+# Supported params: temperature, top_p, max_output_tokens, timeout_s, provider_options.
+# provider_options are passed through by the adapter, e.g.
+#   google: {thinking_budget: 0} or {thinking_level: minimal}
+#   openai: {reasoning: {effort: minimal}}   (reasoning models reject temperature/top_p)
+
+defaults:
+  params:
+    timeout_s: 60
+  resilience:
+    transient_attempts: 3
+    backoff_initial_s: 1.0
+    backoff_max_s: 20.0
+    repair_attempts: 2
+    truncation_multiplier: 1.5
+    max_output_tokens_cap: 4000
+
+tasks:
+  create_reviews_summary:
+    params: {max_output_tokens: 500}
+    route:
+      - provider: openai
+        model: gpt-4.1-mini
+        params: {temperature: 0.2, top_p: 0.95}
+      - provider: google
+        model: gemini-2.5-flash
+        params: {temperature: 0.1, provider_options: {thinking_budget: 0}}
+
+  extract_unsupervised_topics:
+    route:
+      - provider: openai
+        model: gpt-4o-mini
+        params: {temperature: 0.2, top_p: 0.99, max_output_tokens: 500}
+      - provider: google
+        model: gemini-2.5-flash
+        params: {temperature: 0.0, max_output_tokens: 800, provider_options: {thinking_budget: 0}}
+    settings:
+      max_num_of_topics: 19
+
+  tag_reviews_with_topics:
+    params: {temperature: 0.0, top_p: 0.9, max_output_tokens: 200}
+    route:
+      - provider: openai
+        model: gpt-4o
+      - provider: google
+        model: gemini-2.5-flash
+        params: {provider_options: {thinking_budget: 0}}
+    settings:
+      concurrency: 20
+
+  find_bugs_and_features:
+    params: {max_output_tokens: 500}
+    route:
+      - provider: openai
+        model: gpt-4o-mini
+        params: {temperature: 0.2, top_p: 0.98}
+      - provider: google
+        model: gemini-2.5-flash
+        params: {temperature: 0.1, provider_options: {thinking_budget: 0}}
+    settings:
+      max_num_of_items: 15
+
+  recommend_actions:
+    params: {temperature: 0.3, top_p: 0.98, max_output_tokens: 300}
+    route:
+      - provider: openai
+        model: gpt-4o-mini
+      - provider: google
+        model: gemini-2.5-flash
+        params: {provider_options: {thinking_budget: 0}}
+    settings:
+      max_num_of_actions: 10
+
+  recommend_marketing_strategies:
+    params: {temperature: 0.5, top_p: 0.98, max_output_tokens: 300}
+    route:
+      - provider: openai
+        model: gpt-4o-mini
+      - provider: google
+        model: gemini-2.5-flash
+        params: {provider_options: {thinking_budget: 0}}
+    settings:
+      max_num_of_marketing_strategies: 10
+
+  extract_subtopics:
+    params: {temperature: 0.0, top_p: 0.95, max_output_tokens: 100}
+    route:
+      - provider: openai
+        model: gpt-4o-mini
+      - provider: google
+        model: gemini-2.5-flash
+        params: {provider_options: {thinking_budget: 0}}
+    settings:
+      max_num_of_subtopics: 5

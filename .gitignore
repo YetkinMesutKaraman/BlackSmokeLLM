@@ -1,11 +1,13 @@
 .env
 .venv
-tests/
 __pycache__/
 *.py[cod]
 *$py.class
+*.egg-info/
 .DS_Store
 */.DS_Store
 .ruff_cache/
+.pytest_cache/
 temp_json.py
-notebooks/
+notebooks/.env
+data/results/

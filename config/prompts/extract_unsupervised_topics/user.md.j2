@@ -1,0 +1,22 @@
+You are provided with {{ num_reviews }} user reviews for a mobile application.
+Each review is enclosed between {{ delimiter }} characters.
+
+# Task
+- Identify **positive** and **negative** topic phrases from the reviews.
+
+# Important Notes
+- Do not use the same prefix for multiple topics; it is not good for user experience.
+- Do not use "and" or "or" in topic phrases.
+- If a topic phrase contains "and" or "or", split it into separate topics unless they are synonymous.
+- Consolidate synonymous or closely related topic phrases to provide a cleaner output.
+- Provide semantically diverse topics.
+- Provide high coverage of the mentions in the reviews.
+- Topic phrases must not be longer than 5 words.
+- Return at most {{ max_num_of_topics }} topics in total.
+
+# Output Format
+- Always return English topic phrases.
+- Return a JSON object with the following format: {{ output_format }}
+
+# Data
+{{ reviews }}

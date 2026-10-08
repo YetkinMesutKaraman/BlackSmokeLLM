@@ -1,0 +1,16 @@
+You are provided with {{ num_reviews }} user reviews for a mobile application.
+Each review is enclosed between {{ delimiter }} characters.
+
+# Task
+- Identify **feature requests** and **bugs** from the reviews.
+- Merge reports of the same issue into a single item; do not list one item per review.
+- Order each list by how often the issue is mentioned, most frequent first.
+- Return at most {{ max_num_of_items }} bugs and at most {{ max_num_of_items }} feature requests.
+
+# Output Format
+- Always return English phrases, even when the reviews are in another language.
+- Each item is a short summary of the issue (under 15 words), not a quote from a review.
+- Return a JSON object with the following format: {{ output_format }}
+
+# Data
+{{ reviews }}
